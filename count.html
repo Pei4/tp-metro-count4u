@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">  
+    <link href="css/count4u.css" rel="stylesheet">  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/1e7a6ad461.js" crossorigin="anonymous"></script>
+    <!--react 用-->
+    <script src="js/react.production.min.js"></script>
+    <script src="js/react-dom.production.min.js"></script>
+</head>
+<body>
+    <a>計算區間：</a>
+    <input id="start_date" type="date" min="2022-06-11" onchange=changeStartDate(this)>
+    <a>～</a><a id="end_date">2022/06/11</a>
+    <div id="schedule_1" class="schedule-wrap">
+        <p>
+            <p id="schedule_title_1" class="schedule-title active">行程</p>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#schedule_div_1" aria-expanded="true" aria-controls="collapseExample">
+                <i class="fa-solid fa-caret-down arrow active"></i>
+            </button>
+        </p>
+        <div id="schedule_div_1" class="collapse show">
+            <input id="schedule_input_1" type="text" placeholder="行程" onchange=changeScheduleTitle(this)>
+            <div class="card card-body">
+                <div id="schedule_1_btn_1"></div>
+                這裡是未來的行程區塊
+            </div>
+        </div>
+    </div>
+    
+    
+    <!--react 範例
+        <div id="like_button_container"></div>
+        <script src="js/like_button.js"></script>
+    -->
+
+    
+    
+    <script>
+        //DND 用
+        import { StrictMode } from "react";
+        import ReactDOM from "react-dom";
+
+        import ScheduleBtn from "js/schedule";
+
+        const rootElement = document.getElementById("schedule_1_btn_1");
+        ReactDOM.render(
+        <StrictMode>
+            <ScheduleBtn />
+        </StrictMode>,
+        rootElement
+        );  
+
+        //計算區間更新
+        let start_date;
+        let end_date;
+        function changeStartDate(start){
+            start_date = new Date(start.value);
+            end_date = new Date(start.value);
+            end_date.setDate(end_date.getDate()+30);
+            var print_end_date = end_date.getFullYear()+'/'+('0'+(end_date.getMonth()+1)).slice(-2)+'/'+('0'+(end_date.getDate())).slice(-2);
+            document.getElementById('end_date').innerText = print_end_date;
+        };
+
+        function changeScheduleTitle(title){
+            var current = $(title).attr('id').split('_');
+            document.getElementById(`schedule_title_${current[2]}`).innerHTML = title.value;
+        }
+
+        $('.collapse').on('show.bs.collapse', function () {
+            $(this).siblings().addClass('active');
+            var current = $(this).attr('id').split('_');
+            $(`#schedule_${current[2]}>button>i`).addClass('active');
+        });
+        
+        $('.collapse').on('hide.bs.collapse', function () {
+            $(this).siblings().removeClass('active');
+            var current = $(this).attr('id').split('_');
+            $(`#schedule_${current[2]}>button>i`).removeClass('active');
+        });
+    </script>
+</body>
+</html>
