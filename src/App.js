@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors; } from "@dnd-kit/core";
+import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import Droppable from "./js/Droppable";
-import { arrayMove, insertAtIndex, removeAtIndex; } from "./js/array";
+import { arrayMove, insertAtIndex, removeAtIndex } from "./js/array";
 
 function App() {
   const [items, setItems] = useState(
